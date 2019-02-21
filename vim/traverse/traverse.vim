@@ -18,26 +18,26 @@ endfunction
 
 function! s:Traverser.next()
   for [s:definition, s:regex] in self.definitions
-    let s:match = substitute(self.text_current, s:regex, '\=submatch(1) . s:no_conflict_marker . submatch(2) . s:no_conflict_marker . submatch(3) . s:no_conflict_marker . submatch(4)', 'g')
+    let s:match = substitute(self.text_current, s:regex, '\=submatch(1) . s:no_conflict_marker . submatch(2) . s:no_conflict_marker . submatch(3) . s:no_conflict_marker . submatch(4) . s:no_conflict_marker . submatch(5)', 'g')
     let s:submatches = split(s:match, s:no_conflict_marker)
-    if len(s:submatches) == 4
+    if len(s:submatches) == 5
       break
     endif
   endfor
 
-  if len(s:submatches) != 4
+  if len(s:submatches) != 5
     return
   endif
 
-  let [s:text_before, s:text_match_before, s:text_match_target, s:text_match_after] = s:submatches
+  let [s:text_before, s:text_match_before, s:text_match_target, s:text_match_after, s:text_after] = s:submatches
   let self.text_traversed = self.text_traversed . s:text_before
-  let s:current_traversed = split(self.text_traversed, "\n", v:true)
+  let s:current_traversed_lines = split(self.text_traversed, "\n", v:true)
   let self.text_traversed = self.text_traversed . s:text_match_before . s:text_match_target . s:text_match_after
-  let self.text_current = strpart(self.text_current, strlen(s:match) - strlen(s:no_conflict_marker) * 3)
+  let self.text_current = s:text_after
 
   return {
-        \ 'line': self.line_offset + len(s:current_traversed),
-        \ 'col': strlen(s:current_traversed[-1]) + 1,
+        \ 'line': self.line_offset + len(s:current_traversed_lines),
+        \ 'col': strlen(s:current_traversed_lines[-1]) + 1,
         \ 'match': s:text_match_before . s:text_match_target . s:text_match_after,
         \ 'match_target': s:text_match_target,
         \ 'definition': s:definition
