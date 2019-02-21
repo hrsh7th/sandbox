@@ -4,12 +4,7 @@ let s:any = '\_.\{-}'
 let s:tagname = '\w\+'
 let s:blank = '\_[:blank:]*'
 
-let s:Traverser = {
-      \ 'text': '',
-      \ 'text_current': '',
-      \ 'text_traversed': '',
-      \ 'regexes': []
-      \ }
+let s:Traverser = {}
 
 function! s:Traverser.new(text, definisions, line_offset)
   return extend(deepcopy(s:Traverser), {
@@ -104,7 +99,7 @@ let s:regexes = [{
 " use-case.
 "
 
-let s:traverser = s:Traverser.new(join(getline(82, 91), "\n"), s:regexes, 82)
+let s:traverser = s:Traverser.new(join(getline(77, 91), "\n"), s:regexes, 77)
 
 let s:matches = []
 let s:next = s:traverser.next()
