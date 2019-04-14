@@ -1,0 +1,10 @@
+[package]
+name = "study-rust"
+version = "0.1.0"
+authors = ["hrsh7th <hrsh7th@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+termion = "*"
+rlua = "*"
+
