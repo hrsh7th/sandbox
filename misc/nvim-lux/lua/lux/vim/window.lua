@@ -1,0 +1,3 @@
+local Window = {}
+
+return Window
